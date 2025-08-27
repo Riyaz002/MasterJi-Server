@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import pageRouter from '../api/routes/page.js';
 
 export default async ({ app }) => {
   // Basic middleware
@@ -7,6 +8,9 @@ export default async ({ app }) => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   
+  //Page
+  app.use(pageRouter);
+
   // Health check endpoint
   app.get('/status', (req, res) => {
     res.status(200).end();
@@ -23,12 +27,21 @@ export default async ({ app }) => {
   });
   
   // Simple catch-all for 404 (avoiding wildcard route issues)
-  app.use((req, res) => {
+  app.use((req, res, next) => {
     res.status(404).json({
       success: false,
       message: 'Route not found',
     });
   });
 
+  // Error-handling middleware (must be last)
+  app.use((err, req, res, next) => {
+    const status = err.message === 'Page not found' ? 404 : 500;
+    res.status(status).json({
+      success: false,
+      message: err.message,
+  });
+});
+
   return app;
-}; 
+} 
