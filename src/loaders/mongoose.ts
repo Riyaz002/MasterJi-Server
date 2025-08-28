@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import config from '../config/index.js';
+import config from '../config/index';
 
-export default async () => {
+export default async (): Promise<typeof mongoose> => {
   try {
     const connection = await mongoose.connect(config.database.url);
 
@@ -10,7 +10,7 @@ export default async () => {
       console.log('MongoDB connected successfully');
     });
 
-    mongoose.connection.on('error', (err) => {
+    mongoose.connection.on('error', (err: Error) => {
       console.error('MongoDB connection error:', err);
     });
 
@@ -30,4 +30,4 @@ export default async () => {
     console.error('Failed to connect to MongoDB:', error);
     process.exit(1);
   }
-}; 
+};

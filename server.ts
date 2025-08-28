@@ -1,10 +1,10 @@
-import express from 'express';
-import loaders from './src/loaders/index.js';
-import config from './src/config/index.js';
+import express, { Application } from 'express';
+import loaders from './src/loaders/index';
+import config from './src/config/index';
 
-async function startServer() {
+async function startServer(): Promise<void> {
   try {
-    const app = express();
+    const app: Application = express();
     
     console.log('🚀 Starting MasterJi Server...');
     console.log('📁 Environment:', config.nodeEnv);
@@ -40,15 +40,15 @@ async function startServer() {
 }
 
 // Handle uncaught exceptions
-process.on('uncaughtException', (error) => {
+process.on('uncaughtException', (error: Error) => {
   console.error('Uncaught Exception:', error);
   process.exit(1);
 });
 
 // Handle unhandled promise rejections
-process.on('unhandledRejection', (reason, promise) => {
+process.on('unhandledRejection', (reason: unknown, promise: Promise<unknown>) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
   process.exit(1);
 });
 
-startServer(); 
+startServer();
