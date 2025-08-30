@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { ApiResponse } from '../../types/response';
 import { Page } from '../../types/page';
-import PageModel from '../../models/Page';
+import PageModel from '../models/Page';
 
 const getPage = async (
   req: Request,
