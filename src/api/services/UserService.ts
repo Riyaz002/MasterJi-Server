@@ -1,5 +1,6 @@
 import { Service } from 'typedi';
 import UserModel, { User } from '../models/User';
+import { Model } from 'mongoose';
 
 @Service()
 export default class UserService {
