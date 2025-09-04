@@ -1,8 +1,7 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import pageRouter from '../api/routes/page';
-import authenticationRouter from '../api/routes/authentication';
-import { authenticator } from '../api/middlewares/authenticator';
+import routes from '../api/routes/index';
+import middleware from '../api/middlewares/index';
 
 interface ExpressLoaderOptions {
   app: Application;
@@ -14,13 +13,10 @@ export default async ({ app }: ExpressLoaderOptions): Promise<Application> => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  app.use(authenticationRouter);
+  app.use(middleware);
 
   // Mount authentication routes under /api
-  app.use(authenticator);
-
-  // Mount page routes under /api
-  app.use(pageRouter);
+  app.use(routes);
 
   // Health check endpoint
   app.get('/status', (req: Request, res: Response) => {
