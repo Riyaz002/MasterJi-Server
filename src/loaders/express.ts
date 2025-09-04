@@ -14,11 +14,10 @@ export default async ({ app }: ExpressLoaderOptions): Promise<Application> => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  // Mount authentication routes under /api
-  app.use(authenticator);
+  app.use(authenticationRouter);
 
   // Mount authentication routes under /api
-  app.use(authenticationRouter);
+  app.use(authenticator);
 
   // Mount page routes under /api
   app.use(pageRouter);
